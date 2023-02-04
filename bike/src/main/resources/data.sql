@@ -1,0 +1,4 @@
+INSERT INTO bike (id, name, description) VALUES (1, 'Ut efficitur', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vulputate nulla eget porttitor pellentesque. Aliquam erat volutpat. Phasellus bibendum felis.');
+INSERT INTO bike (id, name, description) VALUES (2, 'Orci varius', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec velit lectus, aliquam eu facilisis nec, imperdiet nec diam. Lorem ipsum.');
+INSERT INTO bike (id, name, description) VALUES (3, 'Sed dui', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel tortor non lacus suscipit luctus id eu libero. Vestibulum fermentum.');
+INSERT INTO bike (id, name, description) VALUES (4, 'Suspendisse maximus', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse at sagittis velit, vel fermentum sem. Nulla facilisi. Donec at pulvinar.');
