@@ -1,11 +1,14 @@
 package com.github.szysza26.bikecatalog.bike.service;
 
+import com.github.szysza26.bikecatalog.bike.dto.BikeDTO;
+import com.github.szysza26.bikecatalog.bike.dto.BikeInListDTO;
 import com.github.szysza26.bikecatalog.bike.exception.BikeNotFoundException;
 import com.github.szysza26.bikecatalog.bike.model.Bike;
 import com.github.szysza26.bikecatalog.bike.repository.BikeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class BikeServiceImpl implements BikeService {
@@ -16,34 +19,41 @@ public class BikeServiceImpl implements BikeService {
     }
 
     @Override
-    public Set<Bike> getAllBikes() {
-        return bikeRepository.findAll();
+    public Set<BikeInListDTO> getAllBikes() {
+        return bikeRepository.findAll().stream()
+                .map(BikeInListDTO::new).collect(Collectors.toSet());
     }
 
     @Override
-    public Bike getBikeById(Long id) {
-        return bikeRepository.findById(id)
-                .orElseThrow(BikeNotFoundException::new);
-    }
-
-    @Override
-    public Bike addBike(Bike bikeDTO) {
-        return bikeRepository.save(bikeDTO);
-    }
-
-    @Override
-    public Bike updateBike(Bike bikeDTO, Long id) {
+    public BikeDTO getBikeById(Long id) {
         Bike bike = bikeRepository.findById(id)
-                .orElseThrow(BikeNotFoundException::new);
+                .orElseThrow(() -> new BikeNotFoundException(id));
+        return new BikeDTO(bike);
+    }
+
+    @Override
+    public BikeDTO addBike(BikeDTO bikeDTO) {
+        Bike bike = new Bike();
         bike.setName(bikeDTO.getName());
         bike.setDescription(bikeDTO.getDescription());
-        return bikeRepository.save(bike);
+        bike = bikeRepository.save(bike);
+        return new BikeDTO(bike);
+    }
+
+    @Override
+    public BikeDTO updateBike(BikeDTO bikeDTO, Long id) {
+        Bike bike = bikeRepository.findById(id)
+                .orElseThrow(() -> new BikeNotFoundException(id));
+        bike.setName(bikeDTO.getName());
+        bike.setDescription(bikeDTO.getDescription());
+        bike = bikeRepository.save(bike);
+        return new BikeDTO(bike);
     }
 
     @Override
     public void deleteBike(Long id) {
         Bike bike = bikeRepository.findById(id)
-                .orElseThrow(BikeNotFoundException::new);
+                .orElseThrow(() -> new BikeNotFoundException(id));
         bikeRepository.delete(bike);
     }
 }

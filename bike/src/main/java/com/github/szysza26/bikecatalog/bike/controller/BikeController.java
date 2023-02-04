@@ -1,7 +1,10 @@
 package com.github.szysza26.bikecatalog.bike.controller;
 
+import com.github.szysza26.bikecatalog.bike.dto.BikeDTO;
+import com.github.szysza26.bikecatalog.bike.dto.BikeInListDTO;
 import com.github.szysza26.bikecatalog.bike.model.Bike;
 import com.github.szysza26.bikecatalog.bike.service.BikeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,25 +20,25 @@ public class BikeController {
     }
 
     @GetMapping("/api/bikes")
-    public ResponseEntity<Set<Bike>> index() {
-        Set<Bike> bikes = bikeService.getAllBikes();
+    public ResponseEntity<Set<BikeInListDTO>> index() {
+        Set<BikeInListDTO> bikes = bikeService.getAllBikes();
         return new ResponseEntity<>(bikes, HttpStatus.OK);
     }
 
     @GetMapping("/api/bikes/{id}")
-    public ResponseEntity<Bike> show(@PathVariable Long id) {
-        Bike bike = bikeService.getBikeById(id);
+    public ResponseEntity<BikeDTO> show(@PathVariable Long id) {
+        BikeDTO bike = bikeService.getBikeById(id);
         return new ResponseEntity<>(bike, HttpStatus.OK);
     }
 
     @PostMapping("/api/bikes")
-    public ResponseEntity<Bike> create(@RequestBody Bike bike) {
+    public ResponseEntity<BikeDTO> create(@Valid @RequestBody BikeDTO bike) {
         bike = bikeService.addBike(bike);
         return new ResponseEntity<>(bike, HttpStatus.CREATED);
     }
 
     @PutMapping("/api/bikes/{id}")
-    public ResponseEntity<Bike> update(@RequestBody Bike bike, @PathVariable Long id) {
+    public ResponseEntity<BikeDTO> update(@Valid @RequestBody BikeDTO bike, @PathVariable Long id) {
         bike = bikeService.updateBike(bike, id);
         return new ResponseEntity<>(bike, HttpStatus.OK);
     }
